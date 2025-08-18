@@ -1,0 +1,43 @@
+<div class="bg-gray-50 min-h-screen ">
+  <!-- Banner Image -->
+  <img 
+    class="w-full h-[500px] object-cover"
+    src="https://media.fashionnetwork.com/cdn-cgi/image/fit=contain,width=1000,height=1000,format=auto/m/5cad/cf09/c31f/019f/8cbc/eaca/4d10/181a/d89b/e095/e095.jpg"
+    alt="Product Banner"
+  >
+
+  <!-- Title & Buttons -->
+  <div class="flex flex-col items-center justify-center mt-8 gap-4 sm:flex-row sm:justify-between sm:px-10">
+    <h2 class="text-4xl font-bold text-blue-900 ">🛒 Product</h2>
+    <div class="flex gap-4">
+      <button
+        type="button"
+        (click)="clearproduct()"
+        *ngIf="total > 0"
+        class="px-6 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"
+      >
+        Clear Cart
+      </button>
+      <button
+        type="button"
+        routerLink="/total"
+        *ngIf="total > 0"
+        class="px-6 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition"
+      >
+        Total_QTY: {{ total }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Product Cards -->
+  <div class="flex gap-6 overflow-x-auto p-5 m-5 sm:flex-wrap sm:justify-center sm:overflow-visible sm:gap-8 md:gap-12">
+    @for(product of product_cart; track product) {
+      <div class="min-w-[250px] flex-shrink-0">
+        <app-product-cart
+          [product]="product"
+          (adCart)="addproductCart($event)"
+        ></app-product-cart>
+      </div>
+    }
+  </div>
+</div>

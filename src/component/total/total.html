@@ -1,0 +1,83 @@
+<!-- Banner -->
+<img
+  class="w-full h-[400px] md:h-[500px] object-cover"
+  src="https://www.shutterstock.com/image-photo/please-come-again-sign-on-260nw-193796150.jpg"
+  alt="Thank you"
+/>
+
+<!-- Cart Section -->
+<div class="mt-10">
+  <h2 class="text-3xl font-bold text-center mb-8">Your Shopping Cart</h2>
+
+  <!-- Products Grid -->
+  <div class="flex justify-center">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+      @for (productCart of productCartAll; track productCart) {
+        <div
+          class="flex flex-col w-96 bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl"
+        >
+          <!-- Image -->
+          <img
+            [src]="productCart.images"
+            alt="product image"
+            class="w-full h-48 object-cover"
+          />
+
+          <!-- Info -->
+          <div class="p-5 flex flex-col justify-between flex-grow">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                {{ productCart.title }}
+              </h3>
+
+              <div class="mt-2 flex items-center gap-2">
+                <span class="text-sm text-gray-500 line-through">
+                  ${{ productCart.price.toFixed(2) }}
+                </span>
+                <span class="text-lg font-bold text-emerald-600">
+                  ${{ (productCart.price * (1 - (productCart.discountPercentage || 0) / 100)).toFixed(2) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Quantity & Total -->
+            <div class="mt-4">
+              <p class="text-gray-700 dark:text-gray-200">
+                Quantity:
+                <span class="font-semibold">{{ productCart.addcart }}</span>
+              </p>
+              <p class="text-emerald-600 font-bold mt-1">
+                Total: ${{
+                  productCart.price *
+                  (1 - (productCart.discountPercentage || 0) / 100) *
+                  productCart.addcart
+                  | number: "1.2-2"
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+    <button class="bg-amber-800 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md max-sm:text-[15px] max-sm:w-[350px]">
+      Total Price: ${{ totalPrice().toFixed(2) }}
+    </button>
+
+    <button class="bg-amber-800 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md max-sm:text-[15px] max-sm:w-[350px]">
+      Total Qty: {{ totalQuantity() }}
+    </button>
+  </div>
+
+  <div class="flex justify-center mt-6 m-5">
+    <button
+      (click)="sweetalert()"
+      *ngIf="totalQuantity() > 0"
+      class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg"
+    >
+      Pay Now
+    </button>
+  </div>
+</div>
